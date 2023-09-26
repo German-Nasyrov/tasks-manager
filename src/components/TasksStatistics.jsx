@@ -2,10 +2,17 @@ import { useSelector } from 'react-redux';
 import React, { useEffect, useMemo } from 'react';
 import Chart from 'chart.js/auto';
 
-const TasksStatistics = () => {
-  const { allTodos, doneTodos } = useSelector((state) => state.todos);
+const calculateStatistics = (allTodos, doneTodos) => {
   const completedCount = doneTodos.length;
   const notCompletedCount = allTodos.length - completedCount;
+  return { completedCount, notCompletedCount };
+};
+
+const TasksStatistics = () => {
+  const { allTodos, doneTodos } = useSelector((state) => state.todos);
+  const { completedCount, notCompletedCount } = useMemo(() => {
+    calculateStatistics(allTodos, doneTodos);
+  }, [allTodos, doneTodos]);
 
   const data = useMemo(() => ({
     labels: ['Completed', 'Not Completed'],

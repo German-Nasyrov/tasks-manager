@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import TasksStatistics from './TasksStatistics';
+import TasksList from './TasksList';
 import {
   createTask, deleteTask, editTask, performTask, unperformTask,
 } from '../slices/todoSlice';
@@ -81,6 +82,10 @@ const App = () => {
     }
   };
 
+  const handleEditTask = (taskId, data, isEditing) => {
+    dispatch(editTask({ id: taskId, data, isEditing }));
+  };
+
   return (
     <Card className="card-height">
       <Card.Header>
@@ -110,53 +115,14 @@ const App = () => {
                 Add
               </Button>
             </InputGroup>
-            {currentTasks.map((task) => {
-              const isTaskChecked = checkedTasks[task.id];
-              const isCompleted = isTaskChecked && task.completed;
-              const isTextareaDisabled = isTaskChecked;
-
-              return (
-                <div
-                  className="list-element"
-                  id={`task-${task.id}`}
-                  key={task.id}
-                >
-                  <input
-                    className="form-check-input m-0 ms-2 me-2"
-                    type="checkbox"
-                    id={`flexCheckIndeterminate-${task.id}`}
-                    onClick={() => {
-                      handlePerformTask(task);
-                    }}
-                    defaultChecked={isTaskChecked}
-                  />
-                  <textarea
-                    className={`ms-2 me-auto task-edit
-                    ${task.isEditing ? 'editing' : ''}
-                    ${isCompleted ? 'completed' : ''}`}
-                    rows={1}
-                    value={task.data}
-                    maxLength={maxLength}
-                    onChange={(e) => {
-                      dispatch(
-                        editTask({ id: task.id, data: e.target.value, isEditing: true }),
-                      );
-                    }}
-                    onBlur={(e) => dispatch(
-                      editTask({ id: task.id, data: e.target.value, isEditing: false }),
-                    )}
-                    onKeyDown={handleTextareaKeyDown}
-                    disabled={isTextareaDisabled}
-                  />
-                  <Button
-                    type="button"
-                    className="btn-close ms-1 me-1"
-                    aria-label="Close"
-                    onClick={() => handleDeleteTask(task)}
-                  />
-                </div>
-              );
-            })}
+            <TasksList
+              tasks={currentTasks}
+              checkedTasks={checkedTasks}
+              onPerformTask={handlePerformTask}
+              onDeleteTask={handleDeleteTask}
+              onEditTask={handleEditTask}
+              onTextareaKeyDown={handleTextareaKeyDown}
+            />
             {allTodos.length > itemsPerPage && (
               <ReactPaginate
                 previousLabel="Previous"

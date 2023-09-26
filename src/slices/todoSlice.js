@@ -6,6 +6,13 @@ const initialState = {
   doneTodos: [],
 };
 
+const updateTaskCompletion = (state, taskId, completed) => {
+  state.allTodos = state.allTodos.map((task) => {
+    if (task.id === taskId) return { ...task, completed };
+    return task;
+  });
+};
+
 const todoSlice = createSlice({
   name: 'todos',
   initialState,
@@ -22,7 +29,7 @@ const todoSlice = createSlice({
           isEditing: false,
         });
       } else {
-        console.error('This task is already exists');
+        console.error('This task already exists');
       }
     },
     deleteTask(state, action) {
@@ -40,20 +47,16 @@ const todoSlice = createSlice({
     performTask(state, action) {
       const { id } = action.payload;
       const performedTaskId = id;
-      state.allTodos = state.allTodos.map((task) => {
-        if (task.id === performedTaskId) return { ...task, completed: true };
-        return task;
-      });
+      updateTaskCompletion(state, performedTaskId, true);
+
       const performedTask = state.allTodos.find((task) => task.id === performedTaskId);
       state.doneTodos.push(performedTask);
     },
     unperformTask(state, action) {
       const { id } = action.payload;
       const unperformedTaskId = id;
-      state.allTodos = state.allTodos.map((task) => {
-        if (task.id === unperformedTaskId) return { ...task, completed: false };
-        return task;
-      });
+      updateTaskCompletion(state, unperformedTaskId, false);
+
       state.doneTodos = state.doneTodos.filter((task) => task.id !== unperformedTaskId);
     },
   },
