@@ -5,7 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import { createTask } from '../slices/todoSlice';
 
-const TasksForm = ({ onTaskCreated }) => {
+const TasksForm = () => {
   const [inputValue, setInputValue] = useState('');
   const dispatch = useDispatch();
 
@@ -13,7 +13,6 @@ const TasksForm = ({ onTaskCreated }) => {
     if (inputValue) {
       dispatch(createTask({ data: inputValue }));
       setInputValue('');
-      onTaskCreated();
     }
   };
 
