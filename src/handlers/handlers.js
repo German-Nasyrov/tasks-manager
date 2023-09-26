@@ -1,6 +1,18 @@
 import {
-  performTask, unperformTask, editTask,
+  createTask, performTask, unperformTask, editTask,
 } from '../slices/todoSlice';
+
+export const createTaskHandler = (dispatch, inputValue, setInputValue) => {
+  if (inputValue) {
+    dispatch(createTask({ data: inputValue }));
+    setInputValue('');
+  }
+};
+
+export const formInputChangeHandler = (event, setInputValue) => {
+  const { value } = event.target;
+  setInputValue(value);
+};
 
 export const toggleTaskHandler = (dispatch, task, isTaskChecked, setIsTaskChecked) => {
   const updatedIsTaskChecked = !isTaskChecked;
@@ -15,7 +27,7 @@ export const saveTaskHandler = (dispatch, task, editedText, setIsEditing) => {
   setIsEditing(false);
 };
 
-export const inputChangeHandler = (dispatch, task, newText) => {
+export const taskInputChangeHandler = (dispatch, task, newText) => {
   dispatch(editTask({ id: task.id, data: newText, isEditing: true }));
 };
 

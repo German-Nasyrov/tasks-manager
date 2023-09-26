@@ -1,20 +1,15 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Chart from 'chart.js/auto';
-
-const calculateStatistics = (allTodos, doneTodos) => ({
-  completedCount: doneTodos.length,
-  notCompletedCount: allTodos.length - doneTodos.length,
-});
+import calculateStatistics from '../utils/helpers';
 
 const TasksStatistics = () => {
   const { allTodos, doneTodos } = useSelector((state) => state.todos);
+  const chartRef = useRef(null);
   const { completedCount, notCompletedCount } = useMemo(
     () => calculateStatistics(allTodos, doneTodos),
     [allTodos, doneTodos],
   );
-
-  const chartRef = useRef(null);
 
   useEffect(() => {
     const chartCanvas = document.getElementById('myChart');
@@ -22,27 +17,10 @@ const TasksStatistics = () => {
       chartRef.current?.destroy();
       chartRef.current = new Chart(chartCanvas, {
         type: 'doughnut',
-        data: {
-          labels: ['Completed', 'Not Completed'],
-          datasets: [
-            {
-              label: 'Task Status',
-              data: [completedCount, notCompletedCount],
-              backgroundColor: ['green', 'red'],
-            },
-          ],
-        },
-        options: {
-          plugins: {
-            legend: {
-              display: true,
-            },
-          },
-        },
+        data: { labels: ['Completed', 'Not Completed'], datasets: [{ label: 'Task Status', data: [completedCount, notCompletedCount], backgroundColor: ['green', 'red'] }] },
+        options: { plugins: { legend: { display: true } } },
       });
-    }
-
-    return () => chartRef.current?.destroy();
+    } return () => chartRef.current?.destroy();
   }, [completedCount, notCompletedCount]);
 
   return (

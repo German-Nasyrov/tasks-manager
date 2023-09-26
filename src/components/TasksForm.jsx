@@ -3,23 +3,11 @@ import { useDispatch } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
-import { createTask } from '../slices/todoSlice';
+import { createTaskHandler, formInputChangeHandler } from '../handlers/handlers';
 
 const TasksForm = () => {
-  const [inputValue, setInputValue] = useState('');
   const dispatch = useDispatch();
-
-  const handleCreateTask = () => {
-    if (inputValue) {
-      dispatch(createTask({ data: inputValue }));
-      setInputValue('');
-    }
-  };
-
-  const handleInputChange = (event) => {
-    const { value } = event.target;
-    setInputValue(value);
-  };
+  const [inputValue, setInputValue] = useState('');
 
   return (
     <div>
@@ -29,12 +17,12 @@ const TasksForm = () => {
           placeholder="Type the text"
           aria-label="text"
           value={inputValue}
-          onChange={(e) => handleInputChange(e)}
+          onChange={(event) => formInputChangeHandler(event, setInputValue)}
         />
         <Button
           variant="primary"
           aria-label="Create task"
-          onClick={handleCreateTask}
+          onClick={() => createTaskHandler(dispatch, inputValue, setInputValue)}
         >
           Add
         </Button>

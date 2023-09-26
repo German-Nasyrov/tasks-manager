@@ -3,7 +3,11 @@ import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { deleteTask } from '../slices/todoSlice';
 import {
-  toggleTaskHandler, saveTaskHandler, inputChangeHandler, enterKeyPressHandler, startEditingHandler,
+  toggleTaskHandler,
+  saveTaskHandler,
+  taskInputChangeHandler,
+  enterKeyPressHandler,
+  startEditingHandler,
 } from '../handlers/handlers';
 
 const TaskItem = ({ task }) => {
@@ -26,7 +30,7 @@ const TaskItem = ({ task }) => {
         rows={1}
         value={editedText}
         onChange={(event) => {
-          inputChangeHandler(dispatch, task, event.target.value);
+          taskInputChangeHandler(dispatch, task, event.target.value);
           setEditedText(event.target.value);
         }}
         onBlur={() => saveTaskHandler(dispatch, task, editedText, setIsEditing)}
