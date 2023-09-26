@@ -16,7 +16,7 @@
 ![Lint Check](https://github.com/OGGera/tasks-manager/actions/workflows/lint.yml/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a0135334f9c4b74eadac/maintainability)](https://codeclimate.com/github/OGGera/tasks-manager/maintainability)
 ## Description:
-[Tasks Manager] This is a tasks manager in which you can add, change, execute and delete tasks you have added. For convenience, statistics of completed and uncompleted tasks are kept.
+[Tasks Manager](https://my-tasks-manager.vercel.app) This is a tasks manager in which you can add, change, execute and delete tasks you have added. For convenience, statistics of completed and uncompleted tasks are kept.
 
 ## Made with the help of:
 
