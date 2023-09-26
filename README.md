@@ -13,7 +13,7 @@
 ```
 
 ### Linter status:
-
+![Lint Check](https://github.com/OGGera/tasks-manager/actions/workflows/lint.yml/badge.svg)
 ## Description:
 [Tasks Manager] This is a tasks manager in which you can add, change, execute and delete tasks you have added. For convenience, statistics of completed and uncompleted tasks are kept.
 
