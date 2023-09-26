@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import { deleteTask } from '../slices/todoSlice';
 import {
-  performTask, unperformTask, deleteTask, editTask,
-} from '../slices/todoSlice';
+  toggleTaskHandler, saveTaskHandler, inputChangeHandler, enterKeyPressHandler, startEditingHandler,
+} from '../handlers/handlers';
 
 const TaskItem = ({ task }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,49 +12,29 @@ const TaskItem = ({ task }) => {
   const [isTaskChecked, setIsTaskChecked] = useState(task.completed);
   const dispatch = useDispatch();
 
-  const handlePerformClick = () => {
-    const updatedIsTaskChecked = !isTaskChecked;
-    setIsTaskChecked(updatedIsTaskChecked);
-    dispatch(updatedIsTaskChecked ? performTask(task) : unperformTask(task));
-  };
-
-  const handleSaveClick = () => {
-    dispatch(editTask({ id: task.id, data: editedText, isEditing: false }));
-    setIsEditing(false);
-  };
-
-  const handleInputChange = (e) => {
-    dispatch(editTask({ id: task.id, data: e.target.value, isEditing: true }));
-    setEditedText(e.target.value);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleSaveClick();
-  };
-
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
   return (
-    <div className="list-element" id={`task-${task.id}`}>
+    <div className={`list-element ${isTaskChecked ? 'completed' : ''}`}>
       <input
         className="form-check-input m-0 ms-2 me-2"
         type="checkbox"
         id={`flexCheckIndeterminate-${task.id}`}
-        onClick={handlePerformClick}
+        onClick={() => toggleTaskHandler(dispatch, task, isTaskChecked, setIsTaskChecked)}
         defaultChecked={isTaskChecked}
       />
       <textarea
-        className={`ms-2 me-auto task-edit
-          ${isEditing ? 'editing' : ''}
-          ${isTaskChecked ? 'completed disabled' : ''}`}
+        className={`ms-2 me-auto task-edit ${isEditing ? 'editing' : ''}`}
         rows={1}
         value={editedText}
-        onChange={handleInputChange}
-        onBlur={handleSaveClick}
-        onKeyDown={handleKeyDown}
-        onClick={handleEditClick}
+        onChange={(event) => {
+          inputChangeHandler(dispatch, task, event.target.value);
+          setEditedText(event.target.value);
+        }}
+        onBlur={() => saveTaskHandler(dispatch, task, editedText, setIsEditing)}
+        onKeyDown={(event) => enterKeyPressHandler(
+          event,
+          () => saveTaskHandler(dispatch, task, editedText, setIsEditing),
+        )}
+        onClick={() => startEditingHandler(setIsEditing)}
         disabled={!!isTaskChecked}
       />
       <Button

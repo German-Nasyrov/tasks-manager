@@ -2,11 +2,10 @@ import React, { useMemo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Chart from 'chart.js/auto';
 
-const calculateStatistics = (allTodos, doneTodos) => {
-  const completedCount = doneTodos.length;
-  const notCompletedCount = allTodos.length - completedCount;
-  return { completedCount, notCompletedCount };
-};
+const calculateStatistics = (allTodos, doneTodos) => ({
+  completedCount: doneTodos.length,
+  notCompletedCount: allTodos.length - doneTodos.length,
+});
 
 const TasksStatistics = () => {
   const { allTodos, doneTodos } = useSelector((state) => state.todos);
@@ -20,10 +19,7 @@ const TasksStatistics = () => {
   useEffect(() => {
     const chartCanvas = document.getElementById('myChart');
     if (chartCanvas) {
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-
+      chartRef.current?.destroy();
       chartRef.current = new Chart(chartCanvas, {
         type: 'doughnut',
         data: {
@@ -46,11 +42,7 @@ const TasksStatistics = () => {
       });
     }
 
-    return () => {
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-    };
+    return () => chartRef.current?.destroy();
   }, [completedCount, notCompletedCount]);
 
   return (
