@@ -10,9 +10,10 @@ const calculateStatistics = (allTodos, doneTodos) => {
 
 const TasksStatistics = () => {
   const { allTodos, doneTodos } = useSelector((state) => state.todos);
-  const { completedCount, notCompletedCount } = useMemo(() => {
-    calculateStatistics(allTodos, doneTodos);
-  }, [allTodos, doneTodos]);
+  const { completedCount, notCompletedCount } = useMemo(
+    () => calculateStatistics(allTodos, doneTodos),
+    [allTodos, doneTodos],
+  );
 
   const data = useMemo(() => ({
     labels: ['Completed', 'Not Completed'],

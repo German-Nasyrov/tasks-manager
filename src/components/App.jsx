@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ReactPaginate from 'react-paginate';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import TasksStatistics from './TasksStatistics';
 import TasksList from './TasksList';
+import TasksForm from './TasksForm';
 import {
-  createTask, deleteTask, editTask, performTask, unperformTask,
+  deleteTask, editTask, performTask, unperformTask,
 } from '../slices/todoSlice';
 import logo from '../logo.svg';
 
@@ -19,14 +17,12 @@ const App = () => {
     acc[task.id] = false;
     return acc;
   }, {});
-  const [inputValue, setInputValue] = useState('');
   const [checkedTasks, setCheckedTasks] = useState(initialCheckedTasks);
   const [currentPage, setCurrentPage] = useState(0);
   const [currentTasks, setCurrentTasks] = useState([]);
   const [activePage, setActivePage] = useState(0);
   const itemsPerPage = 5;
   const dispatch = useDispatch();
-  const maxLength = 40;
 
   useEffect(() => {
     const startIndex = currentPage * itemsPerPage;
@@ -35,19 +31,10 @@ const App = () => {
     setCurrentTasks(itemsToDisplay);
   }, [currentPage, allTodos]);
 
-  const handleCreateTask = () => {
-    if (inputValue) {
-      dispatch(createTask({ data: inputValue }));
-      setInputValue('');
-      const updatedPageCount = Math.ceil((allTodos.length + 1) / itemsPerPage);
-      setActivePage(updatedPageCount - 1);
-      setCurrentPage(updatedPageCount - 1);
-    }
-  };
-
-  const handleInputChange = (event) => {
-    const { value } = event.target;
-    if (value.length <= maxLength) setInputValue(value);
+  const handleTaskCreated = () => {
+    const updatedPageCount = Math.ceil((allTodos.length + 1) / itemsPerPage);
+    setActivePage(updatedPageCount - 1);
+    setCurrentPage(updatedPageCount - 1);
   };
 
   const handleDeleteTask = (task) => {
@@ -98,23 +85,7 @@ const App = () => {
             <Card.Title>
               <h5 className="ps-3">Add your task</h5>
             </Card.Title>
-            <InputGroup className="p-3 input-element">
-              <InputGroup.Text id="basic-addon1" />
-              <Form.Control
-                placeholder="Type the text"
-                aria-label="text"
-                value={inputValue}
-                maxLength={maxLength}
-                onChange={(e) => handleInputChange(e)}
-              />
-              <Button
-                variant="primary"
-                aria-label="Create task"
-                onClick={handleCreateTask}
-              >
-                Add
-              </Button>
-            </InputGroup>
+            <TasksForm onTaskCreated={handleTaskCreated} />
             <TasksList
               tasks={currentTasks}
               checkedTasks={checkedTasks}
