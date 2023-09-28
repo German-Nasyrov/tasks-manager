@@ -16,6 +16,7 @@ const TasksForm = () => {
         <Form.Control
           placeholder="Type the text"
           aria-label="text"
+          maxLength={40}
           value={inputValue}
           onChange={(event) => formInputChangeHandler(event, setInputValue)}
         />

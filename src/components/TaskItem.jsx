@@ -29,7 +29,7 @@ const TaskItem = ({ task }) => {
         className={`ms-2 me-auto task-edit ${isEditing ? 'editing' : ''}`}
         rows={1}
         value={editedText}
-        maxLength="40"
+        maxLength={40}
         onChange={(event) => {
           taskInputChangeHandler(dispatch, task, event.target.value);
           setEditedText(event.target.value);
