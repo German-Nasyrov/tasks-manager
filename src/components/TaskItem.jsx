@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import { deleteTask } from '../slices/todoSlice';
+import { deleteTask } from '../slices/tasksSlice';
 import {
   toggleTaskHandler,
   saveTaskHandler,
@@ -29,6 +29,7 @@ const TaskItem = ({ task }) => {
         className={`ms-2 me-auto task-edit ${isEditing ? 'editing' : ''}`}
         rows={1}
         value={editedText}
+        maxLength="40"
         onChange={(event) => {
           taskInputChangeHandler(dispatch, task, event.target.value);
           setEditedText(event.target.value);

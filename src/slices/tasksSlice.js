@@ -2,27 +2,27 @@ import { createSlice } from '@reduxjs/toolkit';
 import uniqueId from 'lodash.uniqueid';
 
 const initialState = {
-  allTodos: [],
-  doneTodos: [],
+  allTasks: [],
+  doneTasks: [],
 };
 
 const updateTaskCompletion = (state, taskId, completed) => {
-  state.allTodos = state.allTodos.map((task) => {
+  state.allTasks = state.allTasks.map((task) => {
     if (task.id === taskId) return { ...task, completed };
     return task;
   });
 };
 
-const todoSlice = createSlice({
-  name: 'todos',
+const tasksSlice = createSlice({
+  name: 'tasks',
   initialState,
   reducers: {
     createTask(state, action) {
       const { data } = action.payload;
-      const existingTask = state.allTodos.find((task) => task.data === data);
+      const existingTask = state.allTasks.find((task) => task.data === data);
 
       if (!existingTask) {
-        state.allTodos.push({
+        state.allTasks.push({
           id: uniqueId(),
           data,
           completed: false,
@@ -34,12 +34,12 @@ const todoSlice = createSlice({
     },
     deleteTask(state, action) {
       const { id } = action.payload;
-      state.allTodos = state.allTodos.filter((task) => task.id !== id);
-      state.doneTodos = state.doneTodos.filter((task) => task.id !== id);
+      state.allTasks = state.allTasks.filter((task) => task.id !== id);
+      state.doneTasks = state.doneTasks.filter((task) => task.id !== id);
     },
     editTask(state, action) {
       const { id, data, isEditing } = action.payload;
-      state.allTodos = state.allTodos.map((task) => {
+      state.allTasks = state.allTasks.map((task) => {
         if (task.id === id) return { ...task, data, isEditing };
         return task;
       });
@@ -49,15 +49,15 @@ const todoSlice = createSlice({
       const performedTaskId = id;
       updateTaskCompletion(state, performedTaskId, true);
 
-      const performedTask = state.allTodos.find((task) => task.id === performedTaskId);
-      state.doneTodos.push(performedTask);
+      const performedTask = state.allTasks.find((task) => task.id === performedTaskId);
+      state.doneTasks.push(performedTask);
     },
     unperformTask(state, action) {
       const { id } = action.payload;
       const unperformedTaskId = id;
       updateTaskCompletion(state, unperformedTaskId, false);
 
-      state.doneTodos = state.doneTodos.filter((task) => task.id !== unperformedTaskId);
+      state.doneTasks = state.doneTasks.filter((task) => task.id !== unperformedTaskId);
     },
   },
 });
@@ -68,6 +68,6 @@ export const {
   editTask,
   performTask,
   unperformTask,
-} = todoSlice.actions;
+} = tasksSlice.actions;
 
-export default todoSlice.reducer;
+export default tasksSlice.reducer;

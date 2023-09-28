@@ -1,6 +1,6 @@
-const calculateStatistics = (allTodos, doneTodos) => ({
-  completedCount: doneTodos.length,
-  notCompletedCount: allTodos.length - doneTodos.length,
+const calculateStatistics = (allTasks, doneTasks) => ({
+  completedCount: doneTasks.length,
+  notCompletedCount: allTasks.length - doneTasks.length,
 });
 
 export default calculateStatistics;

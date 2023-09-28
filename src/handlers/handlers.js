@@ -1,6 +1,6 @@
 import {
   createTask, performTask, unperformTask, editTask,
-} from '../slices/todoSlice';
+} from '../slices/tasksSlice';
 
 export const createTaskHandler = (dispatch, inputValue, setInputValue) => {
   if (inputValue) {
@@ -38,3 +38,7 @@ export const enterKeyPressHandler = (event, saveTask) => {
 };
 
 export const startEditingHandler = (setIsEditing) => setIsEditing(true);
+
+export const PageChangeHandler = (selected, setCurrentPage) => {
+  setCurrentPage(selected);
+};

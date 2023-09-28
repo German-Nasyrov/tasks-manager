@@ -4,11 +4,11 @@ import Chart from 'chart.js/auto';
 import calculateStatistics from '../utils/helpers';
 
 const TasksStatistics = () => {
-  const { allTodos, doneTodos } = useSelector((state) => state.todos);
+  const { allTasks, doneTasks } = useSelector((state) => state.tasks);
   const chartRef = useRef(null);
   const { completedCount, notCompletedCount } = useMemo(
-    () => calculateStatistics(allTodos, doneTodos),
-    [allTodos, doneTodos],
+    () => calculateStatistics(allTasks, doneTasks),
+    [allTasks, doneTasks],
   );
 
   useEffect(() => {

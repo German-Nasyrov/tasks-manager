@@ -6,8 +6,11 @@ import TasksList from './TasksList';
 import TasksForm from './TasksForm';
 import logo from '../logo.svg';
 
+const itemsPerPage = 5;
+
 const App = () => {
-  const { allTodos } = useSelector((state) => state.todos);
+  const { allTasks } = useSelector((state) => state.tasks);
+  const currentPage = Math.floor(allTasks.length / itemsPerPage);
 
   return (
     <Card className="card-height">
@@ -22,7 +25,7 @@ const App = () => {
               <h5 className="ps-3">Add your task</h5>
             </Card.Title>
             <TasksForm />
-            <TasksList tasks={allTodos} />
+            <TasksList tasks={allTasks} currentPage={currentPage} itemsPerPage={5} />
           </Card.Body>
         </Col>
         <Col md={6}>
