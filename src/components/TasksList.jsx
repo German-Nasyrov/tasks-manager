@@ -10,13 +10,12 @@ const TasksList = ({ tasks, currentPage, itemsPerPage }) => {
   const displayedTasks = tasks.slice(startIndex, endIndex);
 
   useEffect(() => {
-    if (tasks.length > itemsPerPage
-      && currentPageState < Math.ceil(tasks.length / itemsPerPage) - 1) {
-      setCurrentPageState(Math.ceil(tasks.length / itemsPerPage) - 1);
+    const lastPageIndex = Math.ceil(tasks.length / itemsPerPage) - 1;
+    const pageCount = Math.ceil(tasks.length / itemsPerPage);
+    if (tasks.length > itemsPerPage && currentPageState < lastPageIndex) {
+      setCurrentPageState(lastPageIndex);
     }
-    if (currentPageState >= Math.ceil(tasks.length / itemsPerPage)) {
-      setCurrentPageState(Math.max(0, currentPageState - 1));
-    }
+    if (currentPageState >= pageCount) setCurrentPageState(Math.max(0, currentPageState - 1));
   }, [tasks, currentPageState, itemsPerPage]);
 
   return (

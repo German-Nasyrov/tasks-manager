@@ -17,9 +17,7 @@ export const formInputChangeHandler = (event, setInputValue) => {
 export const toggleTaskHandler = (dispatch, task, isTaskChecked, setIsTaskChecked) => {
   const updatedIsTaskChecked = !isTaskChecked;
   setIsTaskChecked(updatedIsTaskChecked);
-  dispatch(
-    updatedIsTaskChecked ? performTask(task) : unperformTask(task),
-  );
+  dispatch(updatedIsTaskChecked ? performTask(task) : unperformTask(task));
 };
 
 export const saveTaskHandler = (dispatch, task, editedText, setIsEditing) => {
@@ -32,13 +30,9 @@ export const taskInputChangeHandler = (dispatch, task, newText) => {
 };
 
 export const enterKeyPressHandler = (event, saveTask) => {
-  if (event.key === 'Enter') {
-    saveTask();
-  }
+  if (event.key === 'Enter') saveTask();
 };
 
 export const startEditingHandler = (setIsEditing) => setIsEditing(true);
 
-export const PageChangeHandler = (selected, setCurrentPage) => {
-  setCurrentPage(selected);
-};
+export const PageChangeHandler = (selected, setCurrentPage) => setCurrentPage(selected);
