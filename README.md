@@ -12,7 +12,7 @@
 • Internet browser except Internet Explorer
 ```
 
-### Linter status:
+### Linter status and maintainability:
 ![Lint Check](https://github.com/OGGera/tasks-manager/actions/workflows/lint.yml/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a0135334f9c4b74eadac/maintainability)](https://codeclimate.com/github/OGGera/tasks-manager/maintainability)
 ## Description:
